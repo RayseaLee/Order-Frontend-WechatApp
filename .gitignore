@@ -2,6 +2,7 @@
 node_modules
 /dist
 package-lock.json
+miniprogram_npm
 
 # local env files
 .env.local
