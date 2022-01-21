@@ -1,0 +1,83 @@
+<!--pages/order.wxml-->
+<scroll-view
+  bind:scroll="onScroll"
+  bind:dragging="onDragging"
+  scroll-y
+  id="scroller"
+  style="height: 70vh; overflow: hidden;"
+>
+  <view style="height: 1800px; padding-top: 200px;">
+    <van-sticky scroll-top="{{ scrollTop }}" offset-top="{{ offsetTop }}">
+      <view>
+        <van-button type="warning">嵌套在 scroll-view 内</van-button>
+        <view>dsadad</view>
+        <view>dsadad</view>
+        <view>dsadad</view>
+        <view>dsadad</view>
+        <view>dsadad</view>
+        <view>dsadad</view>
+        <view>dsadad</view>
+      </view>
+     </van-sticky>
+  </view>
+  <view style="height: 1800px; padding-top: 200px;">
+    <view>
+      <van-button type="warning">嵌套在 scroll-view 内</van-button>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+      <view>jkblfdjgfkld</view>
+    </view>
+  </view>
+</scroll-view>

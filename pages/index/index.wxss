@@ -1,0 +1,60 @@
+/**index.wxss**/
+.body {
+  height: 100vh;
+}
+.index-container {
+  height: 100%;
+}
+.index-header-swiper {
+  height: 150px;
+  background-color: slategray;
+}
+/* .index-header-title {
+  margin-left: 10rpx;
+  font-size: 20px;
+}
+.index-header-logo {
+  position: absolute;
+  top: 10rpx;
+  right: 10rpx;
+  
+} */
+.index-content {
+  display: flex;
+}
+.index-content-side1 {
+  height: 100%;
+  width: 80px;
+}
+.index-content-right {
+  width: 100%;
+  margin-bottom: 200rpx;
+}
+.index-content-cate {
+  height: 80rpx;
+  line-height: 80rpx;
+  margin-left: 20rpx;
+}
+.index-store {
+  background-color: #e3e4e6; 
+  height: calc(100vh - 284px);
+  overflow: auto;
+  padding-bottom: 150px;
+}
+.index-store-cell {
+  margin-top: 10px;
+}
+.index-store-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.index-store-title {
+  font-size: 18px;
+}
+.index-store-logo {
+  float: right;
+  width: 140rpx;
+  height: 140rpx;
+  border-radius: 10rpx;
+}

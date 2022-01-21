@@ -1,0 +1,85 @@
+<!--index.wxml-->
+<view class="body">
+  <view class="index-container">
+    <view class="index-header">
+      <van-notice-bar
+        left-icon="volume-o"
+        text="{{storeInfo.notice}}"
+      />
+      <view class="index-header-swiper">
+      </view>
+    </view>
+    <view class="index-tabs">
+      <van-tabs bind:change="onTabsChange" sticky animated swipeable>
+        <van-tab title="点菜">
+          <view class="index-content">
+            <view class="index-content-left"> 
+              <van-sidebar wx:if="{{ scrollTop<190 }}" class="index-content-side" bind:change="onSideChange" active-key="{{ activeKey }}">
+                <van-sidebar-item wx:for="{{ cateList }}" wx:key="index" title="{{ item.name }}" />
+              </van-sidebar>
+              <view wx:if="{{ scrollTop>=190 }}" class="index-content-side1">
+                <van-sidebar  style="position: fixed; top: 44px; left: 0; z-index: 9;" bind:change="onSideChange" active-key="{{ activeKey }}">
+                  <van-sidebar-item wx:for="{{ cateList }}" wx:key="index" title="{{ item.name }}" />
+                </van-sidebar>
+              </view>
+            </view>
+            <view class="index-content-right">
+              <view style="position: static;" wx:for="{{ goodsList }}" wx:key="index">
+                <view style="height: 1px;" id="cate-{{index}}"></view>
+                <van-divider contentPosition="center">{{item.name}}</van-divider>
+                <!-- <view >{{item.name}}</view> -->
+                <van-card
+                  wx:for="{{ item.goods }}"
+                  wx:key="index"
+                  num="2"
+                  price="{{ item.real_price }}"
+                  desc="{{item.introduction}}"
+                  title="{{item.name}}"
+                  thumb="{{ item.goodsPics[0].pic_url }}"
+                />
+              </view>
+            </view>
+          </view>
+        </van-tab>
+        <van-tab title="评价">评价</van-tab>
+        <van-tab class="index-store" title="商家">
+          <view class="index-store-cell">
+            <van-cell-group>
+              <van-cell>
+                <view class="index-store-info" slot="title">
+                  <view class="index-store-title"><van-icon name="shop-o" style="margin-right: 4px;"/>{{storeInfo.name}}</view>
+                  <image class="index-store-logo" src="{{storeInfo.logo}}">单元格</image>
+                </view>
+              </van-cell>
+              <van-cell>
+                <view class="index-store-coupon" slot="title">
+                  <van-tag style="display: inline; margin-right: 5px;" color="#ef4c4e" plain>优惠</van-tag>
+                  <view style="display: inline;">{{couponInfo}}</view>
+                </view>
+              </van-cell>
+          </van-cell-group>
+          </view>
+          <view class="index-store-cell">
+            <van-cell-group>
+              <van-cell title="{{storeAddress}}" icon="location-o" is-link/>
+              <van-cell title="营业时间：{{storeInfo.start_time}}-{{storeInfo.end_time}}" icon="clock-o"/>
+              <van-cell title="联系电话：{{storeInfo.phone}}" bind:click="onPhoneCall" icon="phone-circle-o" is-link/>
+            </van-cell-group>
+          </view>
+          <view class="index-store-cell">
+            <van-cell-group>
+              <van-cell title="查看食品安全档案" icon="eye-o" is-link/>
+            </van-cell-group>
+          </view>
+          <view class="index-store-cell">
+            <van-cell-group>
+              <van-cell title="{{storeInfo.notice}}" icon="volume-o"/>
+            </van-cell-group>
+          </view>
+        </van-tab>
+      </van-tabs>
+    </view>
+  </view>
+</view>
+
+

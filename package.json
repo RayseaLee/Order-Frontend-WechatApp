@@ -1,0 +1,15 @@
+{
+  "name": "eat-something",
+  "version": "1.0.0",
+  "description": "If you want something to eat, use it to order",
+  "main": ".eslintrc.js",
+  "dependencies": {
+    "@vant/weapp": "^1.10.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "RayseaLee",
+  "license": "ISC"
+}
