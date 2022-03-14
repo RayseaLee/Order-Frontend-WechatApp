@@ -7,6 +7,14 @@
         text="{{storeInfo.notice}}"
       />
       <view class="index-header-swiper">
+        <swiper indicator-dots="true"
+        autoplay="true" interval="3000" duration="500">
+          <block wx:for="{{swiperInfo}}" wx:key="index">
+            <swiper-item>
+              <image style="height: 100%; width: 100%;" src="{{item.pic_url}}"></image>
+            </swiper-item>
+          </block>
+        </swiper>
       </view>
     </view>
     <view class="index-tabs">
@@ -27,16 +35,26 @@
               <view style="position: static;" wx:for="{{ goodsList }}" wx:key="index">
                 <view style="height: 1px;" id="cate-{{index}}"></view>
                 <van-divider contentPosition="center">{{item.name}}</van-divider>
-                <!-- <view >{{item.name}}</view> -->
-                <van-card
-                  wx:for="{{ item.goods }}"
-                  wx:key="index"
-                  num="2"
-                  price="{{ item.real_price }}"
-                  desc="{{item.introduction}}"
-                  title="{{item.name}}"
-                  thumb="{{ item.goodsPics[0].pic_url }}"
-                />
+                <view class="content-right-goods-list" wx:for="{{ item.goods }}" wx:key="index" data-goodsItem="{{item}}" bindtap="showGoodsInfo">
+                  <image data-goodsItem="{{item}}" class="content-right-goods-img" src="{{ item.goodsPics[0].pic_url }}"></image>
+                  <view data-goodsItem="{{item}}" class="content-right-goods-name">{{ item.name }}</view>
+                  <view data-goodsItem="{{item}}" class="content-right-goods-introduction">{{ item.introduction }}</view>
+                  <view class="content-right-goods-price">
+                    <text data-goodsItem="{{item}}" style="font-size: 13px;">¥</text>
+                    <text data-goodsItem="{{item}}">{{item.original_price}}</text>
+                  </view>
+                  <view class="content-right-icon">
+                    <view wx:if="{{item.Parameters.length == 0}}">
+                      <van-icon wx:if="{{cartList[item.id] > 0}}" data-goodsItem="{{item}}" class="minus-icon" name="minus" catchtap="subtractGoods"/>
+                      <text data-goodsItem="{{item}}" wx:if="{{cartList[item.id] > 0}}" style="margin: 0 10px">{{cartList[item.id]}}</text>
+                      <van-icon data-goodsItem="{{item}}" class="add-icon" name="plus" catchtap="addGoods"/>
+                    </view>
+                    <view wx:else="" data-goodsItem="{{item}}" class="text-icon">
+                      选规格
+                      <view wx:if="{{cartList[item.id] > 0}}" class="text-num">{{cartList[item.id]}}</view>
+                    </view>
+                  </view>
+                </view>
               </view>
             </view>
           </view>
@@ -48,7 +66,7 @@
               <van-cell>
                 <view class="index-store-info" slot="title">
                   <view class="index-store-title"><van-icon name="shop-o" style="margin-right: 4px;"/>{{storeInfo.name}}</view>
-                  <image class="index-store-logo" src="{{storeInfo.logo}}">单元格</image>
+                  <image class="index-store-logo" src="{{storeInfo.logo}}"></image>
                 </view>
               </van-cell>
               <van-cell>
@@ -79,7 +97,120 @@
         </van-tab>
       </van-tabs>
     </view>
+    <!-- 购物车支付栏 -->
+    <view wx:if="{{footerIsShow}}" class="footer" bindtap="openCart">
+      <view class="footer-left">
+        <view class="footer-left-cart">
+          <van-icon name="cart-o"/>
+          <text class="footer-left-num">{{cartNum}}</text>
+        </view>
+        <view class="footer-left-price">
+          <text style="font-size: 14px;">合计：¥</text>
+          <text>{{totalPrice}}</text>
+        </view>
+      </view>
+      <view class="footer-right">
+        下单支付
+      </view>
+    </view>
   </view>
+  <!-- 商品信息弹出框 -->
+  <van-popup
+    show="{{ show }}"
+    round
+    closeable
+    position="bottom"
+    z-index="999"
+    custom-style="height: 60%;"
+    bind:close="onClose"
+  >
+    <view class="goods-item-info">
+      <view>
+        <image class="goods-item-info-img" src="{{ goodsItem.goodsPics[0].pic_url }}"></image>
+        <text class="goods-item-info-name">{{goodsItem.name}}</text>
+      </view>
+      <scroll-view class="goods-info-params">
+        <van-radio-group value="{{ idx }}" data-index="{{idx}}" bind:change="onChange" wx:for="{{goodsItem.Parameters}}" wx:for-index="idx" wx:key="idx">
+          {{item.name}}
+          <wxs module="list2Arr">
+            module.exports.getArr = function(list) {
+              return list.split(',');
+            };
+          </wxs>
+          <view style="display: flex; flex-wrap: wrap; margin:10px 0 25px 0;">
+            <van-radio use-icon-slot name="{{index}}" wx:for="{{list2Arr.getArr(item.list)}}" wx:key="index">
+              <view class="goods-item-info-params-item {{indexArr[idx] === index ? 'active:' : ''}}"> 
+                {{item}}
+              </view>
+            </van-radio>
+          </view>
+        </van-radio-group>
+      </scroll-view>
+      <view class="goods-item-info-footer"> 
+        <view style="color: #ee0a24;">
+          <text style="color: #000;">总计：</text>
+          <text style="font-size: 13px;">¥</text>
+          {{goodsItem.real_price}}
+        </view>
+        <wxs module="goodsNum">
+          module.exports.getNum = function(goodsItem, cartInfo, indexArr, cartList) {
+            var id = goodsItem.id + ''
+            var params = '', num = 0; 
+            if(goodsItem.Parameters == undefined || goodsItem.Parameters.length == 0) {
+              return cartList[id]
+            } else {
+              for(var i = 0; i < goodsItem.Parameters.length; i++) {
+                params = params + goodsItem.Parameters[i].name + ':' + goodsItem.Parameters[i].list.split(',')[indexArr[i]] + ';'
+              } 
+              for(var i = 0; i < cartInfo.length; i++) {
+                if(cartInfo[i].id == id && cartInfo[i].params == params) {
+                  num  = cartInfo[i].num
+                  break
+                }
+              }
+              return num
+            }
+          };
+        </wxs> 
+        <view class="goods-item-info-footer-add" wx:if="{{goodsNum.getNum(goodsItem, cartInfo, indexArr, cartList) == 0}}" data-goodsItem="{{goodsItem}}" bindtap="addGoods">加入购物车</view>
+        <view wx:else style="font-size: 18px;">
+          <van-icon class="minus-icon" name="minus" data-goodsItem="{{goodsItem}}" bindtap="subtractGoods"/>
+          <text style="margin: 0 15px">{{goodsNum.getNum(goodsItem, cartInfo, indexArr, cartList)}}</text>
+          <van-icon class="add-icon" name="plus" data-goodsItem="{{goodsItem}}" bindtap="addGoods"/>
+        </view>
+      </view>
+      </view>
+  </van-popup> 
+  <!-- 购物车信息 -->
+  <van-popup
+    show="{{ isShowCart }}"
+    round
+    position="bottom"
+    z-index="999"
+    custom-style="height: 60%;"
+    bind:close="closeCart"
+  >
+    <view class="cart-info-top">
+      <view>共{{cartNum}}件商品</view>
+      <view bindtap="cleanCart">
+        <van-icon name="delete-o"/>
+        清空
+      </view>
+    </view>
+    <view class="cart-info-content" wx:for="{{cartInfo}}" wx:key="index">
+      <image class="cart-info-content-img" src="{{item.url}}"></image>
+      <view class="cart-info-content-text">
+        <text>{{item.name}}</text>
+        <text style="font-size: 13px; color: #afb0b3">{{item.params}}</text>
+        <text>¥ {{item.price}}</text>
+      </view>
+      <view class="cart-info-content-btn">
+        <van-icon data-goodsItem="{{item}}" class="minus-icon" name="minus" bindtap="subtractGoods"/>
+        <text wx:if="{{cartList[item.id] > 0}}" style="margin: 0 15px">{{item.num}}</text>
+        <van-icon data-goodsItem="{{item}}" class="add-icon" name="plus" bindtap="cartAdd"/>
+      </view>
+    </view>
+  </van-popup>
+  <van-toast id="van-toast"/>
+  <van-dialog id="van-dialog"/>
 </view>
-
-

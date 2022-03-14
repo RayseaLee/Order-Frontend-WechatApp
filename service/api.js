@@ -39,10 +39,19 @@ const getCouponInfo = () => {
     method: 'GET'
   })
 }
+
+const getSwiperInfo = () => {
+  return request({
+    url: '/swipers',
+    method: 'GET'
+  })
+}
+
 export {
   getToken,
   getSideBarInfo,
   getGoodsInfo,
   getStoreInfo,
-  getCouponInfo
+  getCouponInfo,
+  getSwiperInfo
 }

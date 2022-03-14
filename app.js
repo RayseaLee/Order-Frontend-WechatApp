@@ -1,7 +1,18 @@
 // app.js
 App({
   globalData: {},
-  onLaunch() {
+  // onLaunch() {
+  //   this.login().then(res => {
+  //     console.log('code:' + res)
+  //     this.globalData.code = res
+  //   }).catch(err => {
+  //     wx.showToast({
+  //       title: err.message,
+  //       duration: 1000
+  //     })
+  //   })
+  // },
+  onShow() {
     this.login().then(res => {
       console.log('code:' + res)
       this.globalData.code = res
@@ -12,11 +23,11 @@ App({
       })
     })
   },
-
   login() {
     return new Promise((resolve, reject) => {
       const token = wx.getStorageSync('token') || ''
-      if (!token) {
+      console.log(token)
+      // if (!token) {
         wx.login({
           success: res => {
             const code = res.code
@@ -26,7 +37,7 @@ App({
             reject(err)
           }
         })
-      }
+      // }
     })
   },
   // checkToken() {
