@@ -9,6 +9,9 @@
 .index-content {
   display: flex;
 }
+.index-content-left {
+  background-color: #f7f8fa;
+}
 .index-content-side1 {
   height: 100%;
   width: 80px;
@@ -103,9 +106,9 @@
 /* 内容区：商家页 */
 .index-store {
   background-color: #e3e4e6; 
-  height: calc(100vh - 284px);
+  height: calc(100vh - 268px - env(safe-area-inset-bottom));
   overflow: auto;
-  padding-bottom: 150px;
+  padding-bottom: 50px;
 }
 .index-store-cell {
   margin-top: 10px;
@@ -126,10 +129,12 @@
 }
 /* 商品页footer */
 .footer {
+  height: 100rpx;
   position: sticky;
   display: flex;
-  height: 100rpx;
-  background-color: bisque;
+  align-items: center;
+  background-color: #fff;
+  border-top: 0.2px solid #e6e6e6;
   bottom: calc(50px + env(safe-area-inset-bottom));
   left: 0;
   right: 0;
@@ -138,8 +143,6 @@
   width: 70%;
   display: flex;
   height: 100rpx;
-  border-top: 0.2px solid #d2d3d6;
-  background-color: #fff;
 }
 .footer-left-cart {
   width: 80px;
@@ -168,8 +171,10 @@
 }
 .footer-right {
   width: 30%;
-  height: 100rpx;
-  line-height: 100rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  border-radius: 5px;
+  margin-right: 8px;
   color: #fff;
   font-size: large;
   text-align: center;
@@ -244,7 +249,7 @@
   position: relative; 
   height: 60px; 
   padding: 20px 15px; 
-  border-bottom: 1px solid #afb0b3;
+  border-bottom: 1px solid #e6e6e6;
 }
 .cart-info-content-img {
   width: 60px;
@@ -261,8 +266,8 @@
   justify-content: space-between;
 }
 .cart-info-content-btn {
-  position: absolute; 
-  right: 15px; 
-  bottom: 20px; 
+  position: absolute;
+  right: 15px;
+  bottom: 20px;
   font-size: 18px;
 }

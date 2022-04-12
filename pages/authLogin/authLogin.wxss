@@ -1,0 +1,55 @@
+/* pages/authLogin/authLogin.wxss */
+.container {
+  height: 100vh;
+  width: 100%;
+  position: relative;
+}
+.header-nav {
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  color: #fff;
+  left: 0;
+  top: 0;
+  z-index: 99;
+}
+.header-left {
+  /* width: 20px;
+  height: 20px; */
+  position: absolute;
+  cursor: pointer;
+  left: 10px;
+  bottom: 10px;
+  font-size: 25px;
+  font-weight: bold;
+}
+.header-middle {
+  width: 80px;
+  position: absolute;
+  margin: auto;
+  left: 0;
+  right: 0;
+  bottom: 15px;
+}
+.content {
+  height: 100%;
+  width: 100%;
+}
+.footer {
+  width: 70%;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 20px;
+  background-color: #026a8f;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  position: absolute;
+  margin: auto;
+  left: 0;
+  right: 0;
+  bottom: calc(80px + env(safe-area-inset-bottom));
+  z-index: 99;
+}
+

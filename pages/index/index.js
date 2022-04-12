@@ -4,8 +4,6 @@ import { getSideBarInfo, getGoodsInfo, getStoreInfo, getCouponInfo, getSwiperInf
 import Toast from '../../miniprogram_npm/@vant/weapp/toast/toast';
 import Dialog from '../../miniprogram_npm/@vant/weapp/dialog/dialog';
 
-
-// import _ from '../../node_modules/lodash'
 const app = getApp()
 
 Page({
@@ -73,9 +71,7 @@ Page({
     } else {
       this.setData({ footerIsShow: false})
     }
-    console.log(event.detail.index)
     if(this.data.scrollTop != 0) {
-      console.log(this.data.scrollTop)
       wx.pageScrollTo({
         scrollTop: this.data.scrollTop,
         duration: 0
@@ -96,7 +92,6 @@ Page({
       indexArr: [],
       show: false
     })
-    console.log(this.data.indexArr);
   },
   // 商品可选参数改变
   onChange(event) {
@@ -163,7 +158,7 @@ Page({
       } else {
         const length = this.data.cartInfo.length
         // 菜品不是第一次加入，判断购物车中石油有参数一致的菜品
-        for(let i=0; i<length; i++) {
+        for(let i = 0; i < length; i++) {
           // 如果参数一致,菜品数量加一,跳出循环
           if (this.data.cartInfo[i].id == id && this.data.cartInfo[i].params == params) {
             // 参数相同 直接数量加一
@@ -203,20 +198,24 @@ Page({
         duration: 1000,
         zIndex: 10001
       });
-      // wx.showToast({
-      //   title: '已加入购物车',
-      //   duration: 1000
-      // })
     })
     console.log(this.data.cartList);
-    // console.log(this.data.cartInfo);
   },
   // 减少商品
   subtractGoods(e) {
     const goodsItem = e.target.dataset.goodsitem
     const id = goodsItem.id
     const price = goodsItem.real_price || goodsItem.price
-    const params = goodsItem.params
+    let params = '' 
+    if (goodsItem.Parameters) {
+      // 在商品详情页减少商品，获取已选的商品参数
+      goodsItem.Parameters.forEach((item, index) => {
+        params = params + item.name + ':' + item.list.split(',')[this.data.indexArr[index]] + ';'
+      })
+    } else if(goodsItem.params) {
+      // 在购物车减少商品，直接获取商品参数
+      params = goodsItem.params
+    }
     // 菜品没有可选参数
     if (!params) {
       const arr = this.data.cartInfo
@@ -232,9 +231,8 @@ Page({
         }
       })
     } else {
-      const length = this.data.cartInfo.length
       const arr = this.data.cartInfo
-      for(let i=0; i<length; i++) {
+      for(let i=0; i<this.data.cartInfo.length; i++) {
         if (this.data.cartInfo[i].id == id && this.data.cartInfo[i].params == params) {
           // 如果数量为1，直接移除购物车
           if (this.data.cartInfo[i].num == 1) {
@@ -252,7 +250,7 @@ Page({
       totalPrice: this.data.totalPrice - price,
       cartNum: this.data.cartNum - 1
     })
-    console.log(this.data.cartList);
+    console.log(this.data.cartInfo)
   },
   // 查看购物车
   openCart(){
@@ -316,42 +314,105 @@ Page({
       })
     }
   },
-  // 复制电话
-  onPhoneCall() {
-    wx.setClipboardData({
-      data: this.data.storeInfo.phone,
-      success (res) {
-        wx.getClipboardData({
-          success (res) {
-            console.log(res.data) // data
+  async orderPay() {
+    const res = await app.checkToken()
+    if(res == 'TokenCheckSuccess') {
+      if (this.data.cartInfo.length == 0) {
+        Toast({
+          message: '请先选择菜品',
+          position: 'bottom',
+          zIndex: 10001
+        })
+      } else {
+        const that = this
+        const obj = {}
+        Object.keys(that.data.cartList).forEach(key => {
+          obj[key] = 0
+        })
+        wx.navigateTo({
+          url: '../payment/payment',
+          events: {
+            // 为指定事件添加一个监听器，获取被打开页面传送到当前页面的数据
+            haveOrder: function(data) {
+              console.log(data)
+              if(data.opr == 'clear') {
+                console.log(that)
+                that.setData({
+                  cartInfo: [],
+                  cartNum: 0,
+                  totalPrice: 0,
+                  cartList: obj
+                })
+              }
+            },
+          },
+          success: res => {
+            console.log(res)
+            res.eventChannel.emit('orderInfoPage', { 
+              cartInfo: this.data.cartInfo,
+              cartNum: this.data.cartNum,
+              totalPrice: this.data.totalPrice
+            })
+          },
+          fail: err => {
+            console.log(err)
           }
         })
+      }
+    }
+  },
+  // 拨打电话
+  onPhoneCall() {
+    wx.makePhoneCall({
+      phoneNumber: this.data.storeInfo.phone,
+      success(res) {
+        console.log(res)
+      },
+      fail(err) {
+        Toast('已取消')
+      }
+    })
+  },
+  getLocation() {
+    wx.openLocation({
+      latitude: 27.898258,
+      longitude: 112.920678,
+      name: this.data.storeInfo.name,
+      address: this.data.storeAddress,
+      success(res) {
+        console.log(res)
+      },
+      fail(err) {
+        console.log(err)
       }
     })
   },
   // 页面加载完成回调
-  onLoad() {
-    // 获取侧边栏信息
-  //   this.API_getSideBarInfo()
-  //   // 获取商品信息
-  //   this.API_getAllGoods()
-  },
-  // 页面展示回调
-  onShow: async function () {
+  async onShow() {
     this.getTabBar().init()
-    if(this.data.cateList.length == 0) {
+    const res = await app.checkToken()
+    if(res == 'TokenCheckSuccess') {
+      Toast.loading({
+        message: '加载中...', 
+        forbidClick: true,
+        loadingType: 'spinner',
+        duration: 500
+      });
+      if(this.data.cateList.length == 0) {
+        await this.API_getSideBarInfo()
+      }
+      if(this.data.goodsList == 0) {
+        await this.API_getGoodsInfo() 
+      }
       await this.API_getSideBarInfo()
+      this.API_getSwiperInfo()
+      this.API_getStoreInfo()
+      this.API_getCouponInfo()
     }
-    if(this.data.goodsList == 0) {
-      await this.API_getGoodsInfo() 
-    }
-    this.API_getSwiperInfo()
-    this.API_getStoreInfo()
-    this.API_getCouponInfo()
   },
   // 网络请求：获取侧边栏分类信息
   async API_getSideBarInfo() {
-    await getSideBarInfo().then(res => {
+    getSideBarInfo().then(res => {
       console.log(res)
       if(res.data.meta.status === 200) {
         this.setData({ cateList: res.data.data })
@@ -367,7 +428,7 @@ Page({
   },
   // 网络请求：获取商品信息
   async API_getGoodsInfo() {
-    await getGoodsInfo().then(res => {
+    getGoodsInfo().then(res => {
       console.log(res)
       if(res.data.meta.status === 200) {
         const goods = [...this.data.cateList]
@@ -403,6 +464,8 @@ Page({
           storeInfo: storeInfo,
           storeAddress: storeInfo.province + storeInfo.city + storeInfo.county + storeInfo.address,
         })
+        wx.setStorageSync("storeInfo", this.data.storeInfo)
+        wx.setStorageSync("storeAddress", this.data.storeAddress)
       }
     })
   },

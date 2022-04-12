@@ -24,11 +24,6 @@ Component({
         icon: 'orders-o'
       },
       {
-        text:"购物车",
-        url:"/pages/cart/cart",
-        icon: 'cart-o'
-      },
-      {
         text:"我的",
         url:"/pages/mine/mine",
         icon: 'user-o'

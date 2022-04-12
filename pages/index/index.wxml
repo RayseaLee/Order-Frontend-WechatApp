@@ -79,7 +79,7 @@
           </view>
           <view class="index-store-cell">
             <van-cell-group>
-              <van-cell title="{{storeAddress}}" icon="location-o" is-link/>
+              <van-cell title="{{storeAddress}}" icon="location-o" is-link bind:click="getLocation"/>
               <van-cell title="营业时间：{{storeInfo.start_time}}-{{storeInfo.end_time}}" icon="clock-o"/>
               <van-cell title="联系电话：{{storeInfo.phone}}" bind:click="onPhoneCall" icon="phone-circle-o" is-link/>
             </van-cell-group>
@@ -98,8 +98,8 @@
       </van-tabs>
     </view>
     <!-- 购物车支付栏 -->
-    <view wx:if="{{footerIsShow}}" class="footer" bindtap="openCart">
-      <view class="footer-left">
+    <view wx:if="{{footerIsShow}}" class="footer">
+      <view class="footer-left"  bindtap="openCart">
         <view class="footer-left-cart">
           <van-icon name="cart-o"/>
           <text class="footer-left-num">{{cartNum}}</text>
@@ -109,7 +109,7 @@
           <text>{{totalPrice}}</text>
         </view>
       </view>
-      <view class="footer-right">
+      <view class="footer-right" bindtap="orderPay">
         下单支付
       </view>
     </view>
@@ -161,7 +161,7 @@
             } else {
               for(var i = 0; i < goodsItem.Parameters.length; i++) {
                 params = params + goodsItem.Parameters[i].name + ':' + goodsItem.Parameters[i].list.split(',')[indexArr[i]] + ';'
-              } 
+              }
               for(var i = 0; i < cartInfo.length; i++) {
                 if(cartInfo[i].id == id && cartInfo[i].params == params) {
                   num  = cartInfo[i].num
@@ -196,7 +196,7 @@
         <van-icon name="delete-o"/>
         清空
       </view>
-    </view>
+    </view> 
     <view class="cart-info-content" wx:for="{{cartInfo}}" wx:key="index">
       <image class="cart-info-content-img" src="{{item.url}}"></image>
       <view class="cart-info-content-text">

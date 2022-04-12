@@ -1,0 +1,37 @@
+<!--pages/payment/payment.wxml-->
+<view class="body">
+  <view class="order-container">
+    <view class="order-main">
+      <view class="order-content" >
+        <view class="order-goods-item" wx:for="{{cartInfo}}" wx:key="index">
+          <image class="goods-item-img" src="{{item.url}}"></image>
+          <view class="goods-item-text">
+            <text>{{item.name}}</text>
+            <text style="font-size: 13px; color: #afb0b3">{{item.params}}</text>
+            <text>¥ {{item.price}}</text>
+          </view>
+          <view class="goods-item-num">
+            <text style="margin: 0 15px">×{{item.num}}</text>
+          </view>
+        </view>
+      </view>
+      <view class="order-remark">
+        <view style="margin-bottom: 5px;">备注：</view>
+        <textarea name="remark" maxlength="150" placeholder="请输入备注信息" bindblur="handleBlur"></textarea>
+      </view>
+    </view>
+    <view class="order-footer">
+      <view class="footer-left">
+        <text style="font-size: 14px;">合计：¥</text>
+        <text>{{totalPrice}}</text>
+      </view>
+      <view class="footer-right" bindtap="handlePay">
+        立即支付
+      </view>
+    </view>
+  </view>
+  <van-toast id="van-toast"/>
+  <van-dialog id="van-dialog"/>
+</view>
+
+

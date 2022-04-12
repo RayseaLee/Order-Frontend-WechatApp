@@ -1,1 +1,18 @@
 /* pages/order.wxss */
+.body {
+  height: 100vh;
+}
+.container {
+  height: 100%;
+  background-color: rgb(241, 241, 241);
+}
+.scroll-container {
+  height: calc(100vh - 94px - env(safe-area-inset-bottom));
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
+}

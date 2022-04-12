@@ -1,6 +1,9 @@
 {
   "usingComponents": {
-    "van-sticky": "@vant/weapp/sticky/index",
-    "van-button": "@vant/weapp/button/index"
-  }
+    "order-list": "../../components/order-list/order-list",
+    "van-empty": "@vant/weapp/empty/index",
+    "van-dialog": "@vant/weapp/dialog/index"
+  },
+  "navigationBarTitleText": "订单列表",
+  "enablePullDownRefresh": false
 }

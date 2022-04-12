@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "van-icon": "@vant/weapp/icon/index",
+    "van-count-down": "@vant/weapp/count-down/index"
+  },
+  "navigationStyle": "custom",
+  "enablePullDownRefresh": false
+}

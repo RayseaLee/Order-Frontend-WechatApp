@@ -1,0 +1,31 @@
+<!--components/order-list/order-list.wxml-->
+<view class="order-list-container">
+  <view class="order-list-header">
+    <view class="header-left">
+      <view class="store-name" catchtap="navigateToIndex">{{storeName}}<van-icon name="arrow" color="rgb(151, 151, 151)" /></view>
+      <view class="order-time">{{orderInfo.order_time}}</view>
+    </view>
+    <view class="header-right">
+      <view>{{orderInfo.status}}</view>
+      <!-- <view wx:if="{{orderInfo.status == '待支付'}}"><van-count-down time="{{ remainingTime }}" /></view> -->
+    </view>
+  </view>
+  <view class="order-list-content">
+    <scroll-view class="srcoll-container" scroll-x="true">
+      <view class="goods-pic-container" wx:for="{{orderInfo.goodsInfo}}" wx:key="index">
+        <image class="goods-pic" src="{{item.goodsPics[0].pic_url}}"></image>
+        <text style="font-size: 12px; display: block; margin-top: -5px;">{{item.name}}</text>
+      </view>
+    </scroll-view>
+    <view class="goods_num">
+      <text>共</text>
+      <text>{{orderInfo.orderGoods.number}}</text>
+      <text>件</text>
+    </view>
+  </view> 
+  <view class="order-list-footer">
+    <text>合计</text>
+    <text>￥</text>
+    <text class="order-price">{{orderInfo.orderGoods.deal_price}}</text>
+  </view>
+</view>

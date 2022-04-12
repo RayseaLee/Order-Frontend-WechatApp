@@ -1,0 +1,17 @@
+<!--pages/authLogin/authLogin.wxml-->
+<view class="container">
+  <view class="header-nav" style="height: {{navH}}px;">
+    <view class="header-left" bindtap="goBack">
+      <van-icon name="arrow-left"/>
+    </view>
+    <view class="header-middle">授权登录</view>
+  </view>
+  <view class="content">
+    <image style="height: 100%; width: 100%;" src="../../images/authLoginbg.jpg"></image>
+  </view>
+  <view class="footer" bindtap="getUserProfile">
+    <van-icon name="wechat" size="17px" custom-style="margin-right: 3px"/>授权用户信息
+  </view>
+  <van-toast id="van-toast"/>
+</view>
+ 

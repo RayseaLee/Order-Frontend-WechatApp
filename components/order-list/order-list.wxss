@@ -1,0 +1,71 @@
+/* components/order-list/order-list.wxss */
+.order-list-container {
+  width: 100%;
+  height: 150px;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px 0;
+  position: relative;
+  box-sizing: border-box;
+  background-color: #fff;
+  color: rgb(151, 151, 151);
+}
+.order-list-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+.header-right {
+  text-align: right;
+}
+.store-name {
+  color: rgb(73, 73, 73);
+}
+.order-time {
+  font-size: 13px;
+}
+.order-list-content {
+  height: 65px;
+  position: relative;
+}
+.srcoll-container {
+  white-space: nowrap;
+  width: calc(100vw - 40px);
+  height: 65px;
+}
+.goods_num {
+  position: absolute;
+  height: 65px;
+  width: 20px;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  right: 0;
+  top: 0;
+  color: rgb(73, 73, 73);
+  background-color: rgba(255, 255, 255, 0.493);
+}
+.goods-pic-container {
+  display: inline-block;
+  height: 65px;
+  width: 65px;
+  margin-right: 5px;
+  text-align: center;
+}
+.goods-pic {
+  height: 50px;
+  width: 65px;
+  border-radius: 5px;
+}
+.order-list-footer {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  font-size: 12px;
+}
+.order-price {
+  font-size: 14px;
+  color: #000;
+}

@@ -1,83 +1,15 @@
 <!--pages/order.wxml-->
-<scroll-view
-  bind:scroll="onScroll"
-  bind:dragging="onDragging"
-  scroll-y
-  id="scroller"
-  style="height: 70vh; overflow: hidden;"
->
-  <view style="height: 1800px; padding-top: 200px;">
-    <van-sticky scroll-top="{{ scrollTop }}" offset-top="{{ offsetTop }}">
-      <view>
-        <van-button type="warning">嵌套在 scroll-view 内</van-button>
-        <view>dsadad</view>
-        <view>dsadad</view>
-        <view>dsadad</view>
-        <view>dsadad</view>
-        <view>dsadad</view>
-        <view>dsadad</view>
-        <view>dsadad</view>
-      </view>
-     </van-sticky>
+<view class="body">
+  <view class="container">
+    <van-tabs active="{{tabIndex}}" bind:change="onTabsChange">
+      <scroll-view scroll-y="true" refresher-enabled="true" bindrefresherrefresh="handleRefresh" refresher-threshold="100" enhanced="true" show-scrollbar="false" refresher-triggered="{{trigger}}" class="scroll-container">
+        <van-tab wx:for="{{queryList}}" title="{{item == '' ? '全部' : item}}" wx:key="index">
+          <order-list wx:for="{{orderInfo}}" store-name="{{storeInfo.name}}" order-info="{{item}}" wx:key="index" data-orderInfo="{{item}}" bindtap="orderDetail"></order-list>
+          <van-empty wx:if="{{orderInfo.length == 0}}" description="空空如也" />
+        </van-tab>
+      </scroll-view>
+    </van-tabs>
   </view>
-  <view style="height: 1800px; padding-top: 200px;">
-    <view>
-      <van-button type="warning">嵌套在 scroll-view 内</van-button>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-      <view>jkblfdjgfkld</view>
-    </view>
-  </view>
-</scroll-view>
+  <van-toast id="van-toast"/>
+  <van-dialog id="van-dialog"/>
+</view>

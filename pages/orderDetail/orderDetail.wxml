@@ -1,0 +1,71 @@
+<!--pages/orderDetail/orderDetail.wxml-->
+<view class="container">
+  <view class="header" style="height: 200px;">
+    <view class="header-nav" style="height: {{navH}}px;">
+      <view class="header-left" bindtap="goBack"><van-icon name="arrow-left"/></view>
+    </view>
+    <view class="order-status">订单{{orderInfo.status}}</view>
+    <view class="order-remainingTime">
+      <van-count-down wx:if="{{orderInfo.status == '待支付'}}" bind:finish="timeFinish" time="{{ remainingTime }}" />
+    </view>
+    <image style="height: 100%; width: 100%;" src="../../images/orderdetailbg.jpg"></image>
+  </view>
+  <scroll-view class="content, {{orderInfo.status == '待支付' || orderInfo.status == '已完成'  ? 'have-footer' : 'no-footer'}}" scroll-y="true" enhanced="true" show-scrollbar="false">
+    <view class="content-top">
+      <view class="store-name" bindtap="navigateToIndex">{{storeInfo.name}}<van-icon name="arrow" color="rgb(151, 151, 151)" /></view>
+      <view class="store-address">
+        <view>{{storeAddress}}</view>
+        <view class="store-address-icon">
+          <van-icon size="23px" custom-style="margin-right: 8px" name="guide-o" bind:click="getLocation"/>
+          <van-icon size="23px" name="phone-circle-o" bind:click="callPhone"/>
+        </view>
+      </view>
+      <view class="horizontal-line"></view>
+      <view class="content-goods-info">
+        <view class="goods-item" wx:if="{{index < 2 || !isCollapse}}" wx:for="{{orderInfo.goodsInfo}}" wx:key="index">
+          <image class="goods-img" src="{{item.goodsPics[0].pic_url}}" alt="菜品图片"></image>
+          <view class="goods-info">
+            <text class="goods-name">{{item.name}}</text>
+            <text style="color: #979797; font-size: 12px;">{{item.orderGoods ? item.orderGoods.params : item.params}}</text>
+            <text style="color: #979797;">×{{item.orderGoods ? item.orderGoods.number : item.number}}</text>
+          </view>
+          <view class="goods_price">￥{{item.orderGoods ? item.orderGoods.total_price : item.total_price}}</view>
+        </view>
+        <view wx:if="{{orderInfo.goodsInfo.length > 2}}" class="collapse-icon" bindtap="changeCollapse">{{isCollapse ? '展开全部' : '收起更多' }}<van-icon name="{{isCollapse ? 'arrow-down' : 'arrow-up'}}" /></view>
+      </view>
+      <view class="horizontal-line"></view>
+      <view class="content-top-footer">
+        <text>共{{orderInfo.number}}件菜品，合计￥</text>
+        <text style="font-size: 14px; color: #000">{{orderInfo.deal_price}}</text>
+      </view>
+    </view> 
+    <view class="content-bottom">
+      <view>
+        <text class="content-bottom-label">订单编号</text>
+        <text>{{orderInfo.order_id}}</text>
+      </view>
+      <view>
+        <text class="content-bottom-label">下单时间</text>
+        <text>{{orderInfo.order_time}}</text>
+      </view>
+      <view wx:if="{{orderInfo.status == '已完成' || orderInfo.status == '已取消'}}">
+        <text wx:if="{{orderInfo.status == '已完成'}}" class="content-bottom-label">完成时间</text>
+        <text wx:if="{{orderInfo.status == '已取消'}}" class="content-bottom-label">取消时间</text>
+        <text>{{orderInfo.finish_time}}</text>
+      </view>
+      <view>
+        <text class="content-bottom-label">备注</text>
+        <text>{{orderInfo.remark}}</text>
+      </view>
+    </view>
+  </scroll-view>
+  <view wx:if="{{orderInfo.status == '待支付'}}" class="footer">
+    <view class="footer-left" bindtap="cancelOrder">取消订单</view>
+    <view class="footer-right" bindtap="confirmPay">确认支付</view>
+  </view>
+  <view wx:if="{{orderInfo.status == '已完成'}}" class="footer">
+    <view wx:if="{{orderInfo.evaluation}}" class="footer-content" >已评价</view>
+    <view wx:else class="footer-content" bindtap="evaluate">评价</view>
+  </view>
+  <van-toast id="van-toast"/>
+</view>

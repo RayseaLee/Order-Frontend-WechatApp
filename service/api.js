@@ -1,10 +1,17 @@
-import request from './index'
+import request from './request'
 
 const getToken = function(data) {
   return request({
     url: '/wxlogin',
     method: 'POST',
     data
+  })
+}
+
+const checkToken = function () {
+  return request({
+    url: '/auth',
+    method: 'POST'
   })
 }
 
@@ -47,11 +54,39 @@ const getSwiperInfo = () => {
   })
 }
 
+const createOrder = (data) => {
+  return request({
+    url: '/orders',
+    method: 'POST',
+    data
+  })
+}
+
+const getOrderInfo = (data) => {
+  return request({
+    url: '/orders',
+    method: 'GET',
+    data
+  })
+}
+
+const updateOrderStatus = (data) => {
+  return request({
+    url: '/orders',
+    method: 'PUT',
+    data
+  })
+}
+
 export {
   getToken,
+  checkToken,
   getSideBarInfo,
   getGoodsInfo,
   getStoreInfo,
   getCouponInfo,
-  getSwiperInfo
+  getSwiperInfo,
+  createOrder,
+  getOrderInfo,
+  updateOrderStatus
 }
