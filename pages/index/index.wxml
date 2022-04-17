@@ -59,7 +59,10 @@
             </view>
           </view>
         </van-tab>
-        <van-tab title="评价">评价</van-tab>
+        <van-tab title="评价">
+          评价  
+          <view class="index-evaluation"></view>
+        </van-tab>
         <van-tab class="index-store" title="商家">
           <view class="index-store-cell">
             <van-cell-group>
@@ -129,7 +132,7 @@
         <image class="goods-item-info-img" src="{{ goodsItem.goodsPics[0].pic_url }}"></image>
         <text class="goods-item-info-name">{{goodsItem.name}}</text>
       </view>
-      <scroll-view class="goods-info-params">
+      <view>
         <van-radio-group value="{{ idx }}" data-index="{{idx}}" bind:change="onChange" wx:for="{{goodsItem.Parameters}}" wx:for-index="idx" wx:key="idx">
           {{item.name}}
           <wxs module="list2Arr">
@@ -139,13 +142,13 @@
           </wxs>
           <view style="display: flex; flex-wrap: wrap; margin:10px 0 25px 0;">
             <van-radio use-icon-slot name="{{index}}" wx:for="{{list2Arr.getArr(item.list)}}" wx:key="index">
-              <view class="goods-item-info-params-item {{indexArr[idx] === index ? 'active:' : ''}}"> 
+              <view class="goods-item-info-params-item {{indexArr[idx] === index ? 'active' : ''}}"> 
                 {{item}}
               </view>
             </van-radio>
           </view>
         </van-radio-group>
-      </scroll-view>
+      </view>
       <view class="goods-item-info-footer"> 
         <view style="color: #ee0a24;">
           <text style="color: #000;">总计：</text>
@@ -196,7 +199,14 @@
         <van-icon name="delete-o"/>
         清空
       </view>
-    </view> 
+    </view>
+    <view wx:if="{{tableId == 0 || mealsNumber == 0}}" class="cart-info-tables" bindtap="selectTable">
+      <text>选择用餐人数与餐桌</text>  
+    </view>
+    <view wx:else class="cart-info-tables" bindtap="selectTable" >
+      <text>用餐人数：{{mealsNumber}}人</text>
+      <text>已选餐桌：{{tableName}}</text>
+    </view>
     <view class="cart-info-content" wx:for="{{cartInfo}}" wx:key="index">
       <image class="cart-info-content-img" src="{{item.url}}"></image>
       <view class="cart-info-content-text">
@@ -213,4 +223,45 @@
   </van-popup>
   <van-toast id="van-toast"/>
   <van-dialog id="van-dialog"/>
+  <van-dialog
+    use-slot
+    z-index="99999"
+    show="{{ tableDialogShow }}"
+    show-cancel-button
+    before-close="{{beforeClose}}"
+    bind:cancel="handleCancel"
+    bind:confirm="handleConfirm"
+  >
+  <view class="table-select-container">
+    <view style="margin: 10px 0 0 15px;">用餐人数：{{mealsNumber}}人</view>
+    <van-radio-group value="{{ mealsNumber }}" bind:change="onNumberChange">
+      <view class="number-select">
+        <van-radio use-icon-slot disabled="{{inputValue != ''}}" name="{{item+1}}" wx:for="{{12}}" wx:key="index">
+          <view class="number-select-item {{mealsNumber === item + 1 ? 'active' : ''}}"> 
+            {{item + 1}}
+          </view>
+        </van-radio>
+      </view>
+    </van-radio-group>
+    <view style="display: flex;">
+      <text style="margin-left: 15px;">自定义：</text>
+      <input value="{{inputValue}}" type="number" placeholder="自定义用餐人数" bindinput="handleNumberInput" />
+    </view>
+    <view style="margin: 10px 0 10px 15px;">餐桌信息：</view>
+    <van-radio-group value="{{ tableId }}" bind:change="onTableChange">
+      <view style="display: flex; flex-wrap: wrap;">
+        <van-radio use-icon-slot name="{{item.id}}" disabled="{{item.occupy == true}}" wx:for="{{tableInfo}}" wx:key="index">
+          <view class="table-item {{item.id == tableId ? 'is-active' : ''}} {{item.occupy ? 'is-occupy' : ''}}">
+            <view class="table-item-top {{item.id == tableId ? 'is-active-top' : ''}} {{item.occupy ? 'is-occupy-top' : ''}}">
+              <view style="font-weight: bold;">{{item.name}}</view>
+              <view style="font-size: 13px;">(可容纳{{item.contain}}人)</view>
+            </view>
+            <view class="table-item-bottom">{{item.occupy ? '占用' : '空闲'}}</view>
+          </view>
+        </van-radio>
+      </view>
+    </van-radio-group>
+    
+  </view>
+  </van-dialog>
 </view>

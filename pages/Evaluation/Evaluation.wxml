@@ -1,2 +1,32 @@
 <!--pages/Evaluation/Evaluation.wxml-->
-<text>pages/Evaluation/Evaluation.wxml</text>
+<view class="eval-container">
+  <view class="eval-header">
+    <order-list store-name="{{storeName}}" order-info="{{orderInfo}}"></order-list>
+  </view>
+  <view class="eval-main">
+    <view>
+      <van-checkbox
+        value="{{ checked }}"
+        checked-color="#ff0000"
+        bind:change="onCheckChange"
+      >
+        匿名评价
+      </van-checkbox>
+    </view>
+    <view class="main-score">
+      <text style="margin-right: 5px; font-size: 15px;">评分</text>
+      <van-rate value="{{ scoreValue }}" size="{{ 25 }}" bind:change="onScoreChange" />
+      <text style="margin: 0 5px; font-size: 14px;">{{ scoreValue }}分</text>
+      <text style="font-size: 14px;">{{scoreList[scoreValue]}}</text>
+    </view>
+    <view class="horizontal-line"></view>
+    <view>
+      <textarea name="remark" maxlength="300" placeholder="快来评价~ 留下你的用餐感受" bindblur="handleBlur"></textarea>
+    </view>
+  </view>
+  <view class="eval-footer">
+    <view class="footer-left" bindtap="handleCancel">取消</view>
+    <view class="footer-right" bindtap="handleSubmit">发布</view>
+  </view>
+  <van-toast id="van-toast"/>
+</view>

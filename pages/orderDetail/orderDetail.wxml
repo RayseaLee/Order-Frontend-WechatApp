@@ -38,7 +38,11 @@
         <text>共{{orderInfo.number}}件菜品，合计￥</text>
         <text style="font-size: 14px; color: #000">{{orderInfo.deal_price}}</text>
       </view>
-    </view> 
+    </view>
+    <view class="content-center">
+        <text>用餐人数：{{orderInfo.meals_number}}人</text>
+        <text>已选餐桌：{{orderInfo.table_name}}</text>
+      </view>
     <view class="content-bottom">
       <view>
         <text class="content-bottom-label">订单编号</text>
@@ -64,8 +68,8 @@
     <view class="footer-right" bindtap="confirmPay">确认支付</view>
   </view>
   <view wx:if="{{orderInfo.status == '已完成'}}" class="footer">
-    <view wx:if="{{orderInfo.evaluation}}" class="footer-content" >已评价</view>
-    <view wx:else class="footer-content" bindtap="evaluate">评价</view>
+    <view wx:if="{{orderInfo.evaluated}}" class="footer-content" >已评价</view>
+    <view wx:else class="footer-content" bindtap="evaluateOrder">评价</view>
   </view>
   <van-toast id="van-toast"/>
 </view>

@@ -15,6 +15,10 @@
           </view>
         </view>
       </view>
+      <view class="order-table">
+        <text>用餐人数：{{mealsNumber}}人</text>
+        <text>已选餐桌：{{tableName}}</text>
+      </view>
       <view class="order-remark">
         <view style="margin-bottom: 5px;">备注：</view>
         <textarea name="remark" maxlength="150" placeholder="请输入备注信息" bindblur="handleBlur"></textarea>

@@ -1,6 +1,6 @@
 // index.js
 // 获取应用实例
-import { getSideBarInfo, getGoodsInfo, getStoreInfo, getCouponInfo, getSwiperInfo } from '../../service/api'
+import { getSideBarInfo, getGoodsInfo, getStoreInfo, getCouponInfo, getSwiperInfo, getTableInfo } from '../../service/api'
 import Toast from '../../miniprogram_npm/@vant/weapp/toast/toast';
 import Dialog from '../../miniprogram_npm/@vant/weapp/dialog/dialog';
 
@@ -27,7 +27,7 @@ Page({
     couponInfo: '',
     // 购物车各商品商品数量
     cartList: {},
-    // 是否显示购物车
+    // 是否渲染底部购物车栏
     footerIsShow: true,
     // 总价格
     totalPrice: 0,
@@ -43,6 +43,40 @@ Page({
     isShowCart: false,
     // 已选商品参数
     indexArr: [],
+    // 已选桌台
+    tableId: 0,
+    // 餐桌名称
+    tableName: '',
+    // 用餐人数
+    mealsNumber: 0,
+    // 桌台信息
+    tableInfo: [],
+    // 自定义用餐人数
+    inputValue: '',
+    // 是否显示选餐桌弹框
+    tableDialogShow: false,
+    beforeClose(action) {
+      return new Promise((resolve) => {
+        if (action === 'confirm') {
+          if (this.data.tableId == 0 || this.data.mealsNumber == 0) {
+            Toast({
+              message: '请选择用餐人数和餐桌',
+              zIndex: 1000000,
+              position: 'top'
+            })
+            resolve(false)
+          } else {
+            resolve(true)
+          }
+        } else {
+          this.setData({
+            tableId: 0,
+            mealsNumber: 0
+          })
+          resolve(true)
+        }
+      })
+    }
   },
   // 页面滚动回调
   onPageScroll(e) {
@@ -314,10 +348,20 @@ Page({
       })
     }
   },
+  // 下单
   async orderPay() {
     const res = await app.checkToken()
     if(res == 'TokenCheckSuccess') {
-      if (this.data.cartInfo.length == 0) {
+      if(this.data.tableId == 0 || this.mealsNumber == 0) {
+        Toast({
+          message: '请先选择用餐人数和餐桌',
+          position: 'bottom',
+          zIndex: 10001
+        })
+        this.setData({
+          isShowCart: true
+        })
+      } else if (this.data.cartInfo.length == 0) {
         Toast({
           message: '请先选择菜品',
           position: 'bottom',
@@ -341,7 +385,10 @@ Page({
                   cartInfo: [],
                   cartNum: 0,
                   totalPrice: 0,
-                  cartList: obj
+                  cartList: obj,
+                  tableId: 0,
+                  tableName: '',
+                  mealsNumber: 0
                 })
               }
             },
@@ -351,7 +398,10 @@ Page({
             res.eventChannel.emit('orderInfoPage', { 
               cartInfo: this.data.cartInfo,
               cartNum: this.data.cartNum,
-              totalPrice: this.data.totalPrice
+              totalPrice: this.data.totalPrice,
+              tableId: this.data.tableId,
+              tableName: this.data.tableName,
+              mealsNumber: this.data.mealsNumber
             })
           },
           fail: err => {
@@ -373,6 +423,7 @@ Page({
       }
     })
   },
+  // 店铺位置
   getLocation() {
     wx.openLocation({
       latitude: 27.898258,
@@ -385,6 +436,44 @@ Page({
       fail(err) {
         console.log(err)
       }
+    })
+  },
+  // 选择桌台
+  selectTable() {
+    this.setData({
+      tableDialogShow: true
+    })
+  },
+  handleCancel() {
+    // this.setData({
+    //   tableDialogShow: false
+    // })
+  },
+  handleConfirm() {
+    
+  },
+  onNumberChange(event) {
+    this.setData({
+      mealsNumber: event.detail
+    })
+  },
+  onTableChange(event) {
+    const tableName = this.data.tableInfo.find(table => table.id == event.detail)['name']
+    this.setData({
+      tableId: event.detail,
+      tableName: tableName
+    })
+  },
+  handleNumberInput(event) {
+    this.setData({
+      mealsNumber: event.detail.value == "" ? "" : Number(event.detail.value),
+      inputValue: event.detail.value == "" ? "" : Number(event.detail.value)
+    })
+    console.log(this.data.inputValue)
+  },
+  onLoad() {
+    this.setData({
+      beforeClose: this.data.beforeClose.bind(this)
     })
   },
   // 页面加载完成回调
@@ -408,6 +497,7 @@ Page({
       this.API_getSwiperInfo()
       this.API_getStoreInfo()
       this.API_getCouponInfo()
+      this.API_getTableInfo()
     }
   },
   // 网络请求：获取侧边栏分类信息
@@ -489,5 +579,15 @@ Page({
         this.setData({swiperInfo: res.data.data.swipers})
       }
     })
+  },
+  API_getTableInfo() {
+    getTableInfo().then(res => {
+      console.log(res)
+      if(res.data.meta.status === 200) {
+        this.setData({tableInfo: res.data.data})
+      }
+    })
   }
 })
+
+

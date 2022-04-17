@@ -36,6 +36,16 @@
   bottom: 20px;
   font-size: 18px;
 }
+.order-table {
+  height: 40px;
+  line-height: 40px;
+  display: flex;
+  justify-content: space-evenly;
+  border-radius: 5px;
+  margin-top: 10px;
+  padding: 5px;
+  background-color: #fff;
+}
 .order-remark {
   height: 150px;
   border-radius: 5px;

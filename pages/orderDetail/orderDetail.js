@@ -67,18 +67,22 @@ Page({
       }
     })
   },
+  // 跳转到首页
   navigateToIndex() {
     wx.switchTab({
       url: '../../pages/index/index'
     })
   },
+  // 倒计时结束
   timeFinish() {
     const finish_time = formatTime(new Date(Date.parse(this.data.orderInfo.order_time) + 60 * 15 * 1000))
     this.API_updateOrderStatus(finish_time, '已取消')
   },
+  // 处理倒计时
   handleRemainingTime(startDate, currentTime) {
     return Date.parse(startDate) + 60 * 15 * 1000 - currentTime
   },
+  // 获取店铺位置
   getLocation() {
     wx.openLocation({
       latitude: 27.898258,
@@ -93,11 +97,13 @@ Page({
       }
     })
   },
+  // 展开收起操作
   changeCollapse() {
     this.setData({
       isCollapse: !this.data.isCollapse
     })
   },
+  // 拨打电话
   callPhone() {
     wx.makePhoneCall({
       phoneNumber: this.data.storeInfo.phone,
@@ -109,9 +115,25 @@ Page({
       }
     })
   },
+  // 返回
   goBack() {
     wx.switchTab({
       url: '../order/order'
+    })
+  },
+  // 评价
+  evaluateOrder() {
+    wx.navigateTo({
+      url: '../Evaluation/Evaluation',
+      success: res => {
+        res.eventChannel.emit('evaluateOrder', {
+          orderInfo: this.data.orderInfo,
+          storeName: this.data.storeInfo.name
+        })
+      },
+      fail: err => {
+        console.log(err)
+      }
     })
   },
   // 取消订单
@@ -123,10 +145,12 @@ Page({
   confirmPay(){
     this.API_updateOrderStatus(null, '进行中')
   },
+  // 更新订单状态
   API_updateOrderStatus(finish_time, status) {
     updateOrderStatus({
       id: this.data.orderInfo.id,
       status,
+      table_id: this.data.orderInfo.table_id,
       finish_time
     }).then(res => {
       console.log(res)

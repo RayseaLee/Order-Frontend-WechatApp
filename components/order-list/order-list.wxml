@@ -19,13 +19,13 @@
     </scroll-view>
     <view class="goods_num">
       <text>共</text>
-      <text>{{orderInfo.orderGoods.number}}</text>
+      <text>{{orderInfo.number}}</text>
       <text>件</text>
     </view>
   </view> 
   <view class="order-list-footer">
     <text>合计</text>
     <text>￥</text>
-    <text class="order-price">{{orderInfo.orderGoods.deal_price}}</text>
+    <text class="order-price">{{orderInfo.deal_price}}</text>
   </view>
 </view>

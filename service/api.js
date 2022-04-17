@@ -78,6 +78,20 @@ const updateOrderStatus = (data) => {
   })
 }
 
+const getTableInfo = () => {
+  return request({
+    url: '/tables'
+  })
+}
+
+const createEvaluation = (data) => {
+  return request({
+    url: '/evaluation',
+    method: 'post',
+    data
+  })
+}
+
 export {
   getToken,
   checkToken,
@@ -88,5 +102,7 @@ export {
   getSwiperInfo,
   createOrder,
   getOrderInfo,
-  updateOrderStatus
+  updateOrderStatus,
+  getTableInfo,
+  createEvaluation
 }

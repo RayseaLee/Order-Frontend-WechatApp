@@ -11,7 +11,10 @@ Page({
     cartInfo: [],
     cartNum: 0,
     totalPrice: 0,
-    remark: ''
+    remark: '', 
+    tableId: 0,
+    tableName: '',
+    mealsNumber: 0
   },
 
   /**
@@ -32,7 +35,10 @@ Page({
       this.setData({
         cartInfo: data.cartInfo,
         cartNum: data.cartNum,
-        totalPrice: data.totalPrice
+        totalPrice: data.totalPrice,
+        tableId: data.tableId,
+        tableName: data.tableName,
+        mealsNumber: data.mealsNumber
       })
     })
   },
@@ -47,7 +53,7 @@ Page({
       message: '确认支付？',
       zIndex: 10001
     }).then(() => {
-      this.emitOrderStatus()
+      // this.emitOrderStatus()
       this.API_createOrder('进行中')
     }).catch(() => {
       Toast({
@@ -55,7 +61,7 @@ Page({
         position: 'bottom',
         zIndex: 10001
       })
-      this.emitOrderStatus()
+      // this.emitOrderStatus()
       this.API_createOrder('待支付')
     })
   },
@@ -77,28 +83,36 @@ Page({
       })
     })
     createOrder({
+      table_id: this.data.tableId,
       total_price: this.data.totalPrice,
       discount_price: 0,
       deal_price: this.data.totalPrice,
       number: this.data.cartNum,
       remark: this.data.remark,
+      meals_number: this.data.mealsNumber,
       status,
       goodsInfo: goodsInfo
     }).then(result => {
-      const data = {
-        ...result.data.data.orderInfo,
-        goodsInfo: goodsInfo
-      }
-      wx.navigateTo({
-        url: '../orderDetail/orderDetail',
-        success: res => {
-          res.eventChannel.emit('orderInfoDetail', data)
-        },
-        fail: err => {
-          console.log(err)
+      if (result.data.meta.status != 201) {
+        Toast('下单失败')
+      } else {
+        this.emitOrderStatus()
+        const data = {
+          ...result.data.data.orderInfo,
+          table_name: this.data.tableName,
+          goodsInfo: goodsInfo
         }
-      })
-      console.log(data)
+        wx.navigateTo({
+          url: '../orderDetail/orderDetail',
+          success: res => {
+            res.eventChannel.emit('orderInfoDetail', data)
+          },
+          fail: err => {
+            console.log(err)
+          }
+        })
+        console.log(data)
+      }
     }).catch(err => {
       Toast(err)
       wx.navigateBack({
