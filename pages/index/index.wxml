@@ -60,8 +60,7 @@
           </view>
         </van-tab>
         <van-tab title="评价">
-          评价  
-          <view class="index-evaluation"></view>
+          <evaluation-list evaluation-info="{{evaluationInfo}}"></evaluation-list>
         </van-tab>
         <van-tab class="index-store" title="商家">
           <view class="index-store-cell">
@@ -244,7 +243,7 @@
       </view>
     </van-radio-group>
     <view style="display: flex;">
-      <text style="margin-left: 15px;">自定义：</text>
+      <view style="width: 25%; margin-left: 15px;">自定义:</view>
       <input value="{{inputValue}}" type="number" placeholder="自定义用餐人数" bindinput="handleNumberInput" />
     </view>
     <view style="margin: 10px 0 10px 15px;">餐桌信息：</view>

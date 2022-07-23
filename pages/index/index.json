@@ -16,7 +16,9 @@
     "van-radio-group": "@vant/weapp/radio-group/index",
     "van-toast": "@vant/weapp/toast/index",
     "van-dialog": "@vant/weapp/dialog/index",
-    "van-field": "@vant/weapp/field/index"
+    "van-field": "@vant/weapp/field/index",
+    "evaluation-list": "../../components/evaluation-list/evaluation-list"
   },
-  "navigationBarTitleText": "首页"
+  "navigationBarTitleText": "首页",
+  "enablePullDownRefresh": false
 }

@@ -15,13 +15,13 @@
     </view>
     <view class="main-score">
       <text style="margin-right: 5px; font-size: 15px;">评分</text>
-      <van-rate value="{{ scoreValue }}" size="{{ 25 }}" bind:change="onScoreChange" />
+      <van-rate value="{{ scoreValue }}" size="{{ 23 }}" bind:change="onScoreChange" />
       <text style="margin: 0 5px; font-size: 14px;">{{ scoreValue }}分</text>
-      <text style="font-size: 14px;">{{scoreList[scoreValue]}}</text>
+      <text style="font-size: 13px;">{{scoreList[scoreValue]}}</text>
     </view>
     <view class="horizontal-line"></view>
     <view>
-      <textarea name="remark" maxlength="300" placeholder="快来评价~ 留下你的用餐感受" bindblur="handleBlur"></textarea>
+      <textarea name="remark" maxlength="300" placeholder="快来评价~ 留下你的用餐感受" bindinput="handleInput"></textarea>
     </view>
   </view>
   <view class="eval-footer">

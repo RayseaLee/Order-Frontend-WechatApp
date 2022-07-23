@@ -38,6 +38,9 @@ Component({
       return Date.parse(startDate) + 60 * 15 * 1000 - currentTime
     },
   },
+  attached() {
+    console.log(this.properties.orderInfo);
+  }
   // attached() {
   //   console.log(this.properties.orderInfo.status);
   //   if (this.properties.orderInfo.status == '待支付') {

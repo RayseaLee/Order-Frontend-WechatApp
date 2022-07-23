@@ -1,4 +1,41 @@
 <!--components/evaluation-list/evaluation-list.wxml-->
 <view class="container">
-  
+  <view class="header">
+    <view class="header-left">
+      <view class="store-score-num">{{storeScore}}</view>
+      <view class="store-score-icon">
+        <view style="color: #979797; font-size: 14px; margin-bottom: 5px">店铺评分</view>
+        <van-rate readonly allowHalf value="{{ storeScore }}" size="{{21}}" />
+      </view>
+    </view>
+    <view class="vertical-line"></view>
+    <view class="header-right">
+      <view style="color: #979797; font-size: 14px; margin-bottom: 5px">菜品满意度</view>
+      <view class="favorable-rate">{{favorableRate}}</view>
+    </view>
+  </view>
+  <view class="main">
+    <view class="evaluation-item" wx:for="{{evaluationInfo}}" wx:key="index">
+      <view class="item-header">
+        <image class="item-avatar" src="{{item.user_avatar}}"></image>
+        <view style="margin-left: 5px;">
+          <view>{{item.username}}</view>
+          <view style="font-size: 13px; color: #979797; margin-top: 5px;">{{item.evaluate_time}}</view>
+        </view>
+      </view>
+      <view>
+        <van-rate readonly value="{{ item.score }}" size="{{15}}" gutter="{{0}}"/>
+        <text style="font-size: 13px; color: #979797; margin-left: 5px;">{{scoreList[item.score]}}</text>
+        <view style="font-size: 14px; margin-top: 5px;">
+          <text>{{item.content}}</text>
+          <text style="color: #ee0a24" wx:for="{{item.order.goodsInfo}}">#{{item.name}}#</text>
+        </view>
+      </view>
+      <view wx:if="{{item.reply}}" class="item-footer">
+        <view>商家回复<text style="font-size: 13px; color: #979797; margin-left: 5px;">{{item.reply_time}}</text></view>
+        <view style="font-size: 13px; color: #707070;">{{item.reply}}</view>
+      </view>
+      <view class="horizontal-line"></view>
+    </view>
+  </view>
 </view>

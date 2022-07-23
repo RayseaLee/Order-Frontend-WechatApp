@@ -6,7 +6,7 @@
       <view class="order-time">{{orderInfo.order_time}}</view>
     </view>
     <view class="header-right">
-      <view>{{orderInfo.status}}</view>
+      <view>{{orderInfo.evaluated ? '已评价' : orderInfo.status}}</view>
       <!-- <view wx:if="{{orderInfo.status == '待支付'}}"><van-count-down time="{{ remainingTime }}" /></view> -->
     </view>
   </view>

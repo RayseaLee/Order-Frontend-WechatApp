@@ -86,9 +86,15 @@ const getTableInfo = () => {
 
 const createEvaluation = (data) => {
   return request({
-    url: '/evaluation',
+    url: '/evaluations',
     method: 'post',
     data
+  })
+}
+
+const getEvaluation = () => {
+  return request({
+    url: '/evaluations'
   })
 }
 
@@ -104,5 +110,6 @@ export {
   getOrderInfo,
   updateOrderStatus,
   getTableInfo,
-  createEvaluation
+  createEvaluation,
+  getEvaluation
 }

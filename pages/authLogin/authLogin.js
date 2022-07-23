@@ -77,6 +77,7 @@ Page({
           icon: 'none',
           duration: 1000,
         })
+        Toast.clear()
         console.log(err);
       }
     })

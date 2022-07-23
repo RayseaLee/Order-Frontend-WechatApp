@@ -42,7 +42,7 @@ Page({
 
   onScoreChange(event) {
     this.setData({
-      value: event.detail
+      scoreValue: event.detail
     })
   },
   onCheckChange(event) {
@@ -50,7 +50,7 @@ Page({
       checked: event.detail
     })
   },
-  handleBlur(event) {
+  handleInput(event) {
     this.setData({
       textValue: event.detail.value
     })

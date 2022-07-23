@@ -1,6 +1,6 @@
 // index.js
 // 获取应用实例
-import { getSideBarInfo, getGoodsInfo, getStoreInfo, getCouponInfo, getSwiperInfo, getTableInfo } from '../../service/api'
+import { getSideBarInfo, getGoodsInfo, getStoreInfo, getCouponInfo, getSwiperInfo, getTableInfo, getEvaluation } from '../../service/api'
 import Toast from '../../miniprogram_npm/@vant/weapp/toast/toast';
 import Dialog from '../../miniprogram_npm/@vant/weapp/dialog/dialog';
 
@@ -14,6 +14,8 @@ Page({
     goodsList: [],
     // 轮播图
     swiperInfo: [],
+    // 评价信息
+    evaluationInfo: [],
     // 侧边栏
     activeKey: 0,
     // 离顶部的距离
@@ -498,6 +500,7 @@ Page({
       this.API_getStoreInfo()
       this.API_getCouponInfo()
       this.API_getTableInfo()
+      this.API_getEvaluation()
     }
   },
   // 网络请求：获取侧边栏分类信息
@@ -586,6 +589,14 @@ Page({
       if(res.data.meta.status === 200) {
         this.setData({tableInfo: res.data.data})
       }
+    })
+  },
+  API_getEvaluation() {
+    getEvaluation().then(res => {
+      if(res.data.meta.status === 200) {
+        this.setData({evaluationInfo: res.data.data})
+      }
+      console.log(this.data.evaluationInfo);
     })
   }
 })

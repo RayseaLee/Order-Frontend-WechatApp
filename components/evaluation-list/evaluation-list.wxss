@@ -1,1 +1,62 @@
 /* components/evaluation-list/evaluation-list.wxss */
+.container {
+  height: calc(100vh - 284px - env(safe-area-inset-bottom));
+  overflow: auto;
+  background-color: #f1f1f1;
+}
+.header {
+  height: 80px;
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 20px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+  background-color: #fff;
+}
+.header-left {
+  display: flex;
+  align-items: center;
+}
+.header-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.vertical-line {
+  width: 1px;
+  height: 100%;
+  background-color: #dddddd;
+}
+.store-score-num {
+  margin-right: 10px;
+  font-size: 30px;
+  font-weight: bold;
+  color: #ee0a24;
+}
+.main {
+  padding: 10px 15px;
+  background-color: #fff;
+}
+.item-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+.item-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+.item-footer {
+  border-radius: 5px;
+  margin-top: 5px;
+  font-size: 14px;
+  padding: 8px;
+  background-color: #f3f3f3;
+}
+.horizontal-line {
+  height: 0.5px;
+  width: 100%;
+  margin: 10px 0;
+  background-color: #dddddd;
+}
